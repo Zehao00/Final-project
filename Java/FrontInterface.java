@@ -1,4 +1,6 @@
+import java.util.List;
 import java.util.Scanner;
+import java.util.Stack;
 
 public class FrontInterface 
 {
@@ -10,6 +12,7 @@ public class FrontInterface
 		System.out.print("Finding shortest paths(1)" + "\n");
 		System.out.print("Searching for a bus stop(2)" + "\n");
 		System.out.print("Searching for all trips with a given arrival time(3)" + "\n");
+		System.out.print("Quit(0)" + "\n");
 		
 		int choice = 0;
 		boolean quit = false;
@@ -24,9 +27,51 @@ public class FrontInterface
 				choice = input.nextInt();
 				input.nextLine();
 				System.out.print("\n");
+				
 				if(choice == 1)
-				{
-					
+				{	
+					while( choice != 0 )
+					{
+						System.out.print("Please enter two bus stop :" + "\n");
+						if(input.hasNextInt())
+					    {
+					    	int start = input.nextInt();
+					    	if(start != 0)
+					    	{
+					    		int end = input.nextInt();
+					    		
+					    		EdgeWeightedDigraph theGraph = new EdgeWeightedDigraph(12478);
+					    		String file = "transfers.txt";
+					    		theGraph.readData(file, theGraph);
+					    		ShortestPaths path = new ShortestPaths(theGraph, start);
+					    		List<DirectedEdge> pathList = new Stack<DirectedEdge>();
+					    		pathList = path.pathTo(end);
+					    		
+					    		if(path.hasPath(end))
+					    		{
+					    			for (int i = pathList.size()-1; i >= 0; i--) 
+					    			{
+					                    System.out.print(pathList.get(i) + "\n");
+					                }
+					    			System.out.print("\n");
+					    		}
+					    		else
+					    		{
+					    			System.out.print("No path exists between these stop" + "\n\n");
+					    		}
+					    	}
+					    	else
+					    	{
+					    		choice = 0;
+					    	}
+					    }
+					    else if(input.hasNext())
+					    {
+					    	System.out.print("Input error" + "\n\n");
+					    	input.nextLine();
+					    }
+					}
+					System.out.print("\n" + "Please enter a number to select a functionality again:" + "\n");
 				}
 				else if(choice == 2)
 				{
