@@ -269,11 +269,11 @@ public class SearchingTrips
           {
     		File theInput = new File(txt);
     	    Scanner scanner = new Scanner(theInput);
-    	    String[] data = scanner.nextLine().split(",");;
+    	    String[] data = scanner.nextLine().split(",");
     	    
     	    while(scanner.hasNextLine())
     	    {
-    	    	data = scanner.nextLine().split(",");;
+    	    	data = scanner.nextLine().split(",");
     	    	String ID = data[0];
     	    	String name = data[2];
     	    	StringBuilder stopName = new StringBuilder();
