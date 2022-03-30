@@ -1,21 +1,25 @@
+import java.io.File;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
+import java.util.Scanner;
 
 /**
 Most of the skeleton code was copied from "https://algs4.cs.princeton.edu/52trie/TST.java.html".
  */
 
-public class SearchingTrips<Value> 
+public class SearchingTrips 
 {
     private int n;              // size
-    private Node<Value> root;   // root of TST
+    private Node<String> root;   // root of TST
 
     
-    private static class Node<Value> 
+	@SuppressWarnings("hiding")
+	private static class Node<String> 
     {
         private char c;                        // character
-        private Node<Value> left, mid, right;  // left, middle, and right subtries
-        private Value val;                     // value associated with string
+        private Node<String> left, mid, right;  // left, middle, and right subtries
+        private String val;                     // value associated with string
     }
 
     
@@ -36,7 +40,7 @@ public class SearchingTrips<Value>
     {
         return n;
     }
-
+    
     
     /**
      * Does this symbol table contain the given key?
@@ -62,21 +66,21 @@ public class SearchingTrips<Value>
      *     and {@code null} if the key is not in the symbol table
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
-    public Value get(String key) 
+    public String get(String key) 
     {
         if (key == null) 
         {
             throw new IllegalArgumentException("calls get() with null argument");
         }
         if (key.length() == 0) throw new IllegalArgumentException("key must have length >= 1");
-        Node<Value> x = get(root, key, 0);
+        Node<String> x = get(root, key, 0);
         if (x == null) return null;
         return x.val;
     }
 
     
     // return subtrie corresponding to given key
-    private Node<Value> get(Node<Value> x, String key, int d) 
+    private Node<String> get(Node<String> x, String key, int d) 
     {
         if (x == null) return null;
         if (key.length() == 0) throw new IllegalArgumentException("key must have length >= 1");
@@ -96,7 +100,7 @@ public class SearchingTrips<Value>
      * @param val the value
      * @throws IllegalArgumentException if {@code key} is {@code null}
      */
-    public void put(String key, Value val) 
+    public void put(String key, String val) 
     {
         if (key == null) 
         {
@@ -108,12 +112,12 @@ public class SearchingTrips<Value>
     }
 
     
-    private Node<Value> put(Node<Value> x, String key, Value val, int d) 
+    private Node<String> put(Node<String> x, String key, String val, int d) 
     {
         char c = key.charAt(d);
         if (x == null) 
         {
-            x = new Node<Value>();
+            x = new Node<String>();
             x.c = c;
         }
         if      (c < x.c)               x.left  = put(x.left,  key, val, d);
@@ -140,7 +144,7 @@ public class SearchingTrips<Value>
         }
         if (query.length() == 0) return null;
         int length = 0;
-        Node<Value> x = root;
+        Node<String> x = root;
         int i = 0;
         while (x != null && i < query.length()) 
         {
@@ -170,8 +174,6 @@ public class SearchingTrips<Value>
         collect(root, new StringBuilder(), queue);
         return queue;
     }
-
-    
     /**
      * Returns all of the keys in the set that start with {@code prefix}.
      * @param prefix the prefix
@@ -186,7 +188,7 @@ public class SearchingTrips<Value>
             throw new IllegalArgumentException("calls keysWithPrefix() with null argument");
         }
         Queue<String> queue = new LinkedList<String>();
-        Node<Value> x = get(root, prefix, 0);
+        Node<String> x = get(root, prefix, 0);
         if (x == null) return queue;
         if (x.val != null) queue.add(prefix);
         collect(x.mid, new StringBuilder(prefix), queue);
@@ -195,7 +197,7 @@ public class SearchingTrips<Value>
 
     
     // all keys in subtrie rooted at x with given prefix
-    private void collect(Node<Value> x, StringBuilder prefix, Queue<String> queue) 
+    private void collect(Node<String> x, StringBuilder prefix, Queue<String> queue) 
     {
         if (x == null) return;
         collect(x.left,  prefix, queue);
@@ -221,7 +223,7 @@ public class SearchingTrips<Value>
     }
  
     
-    private void collect(Node<Value> x, StringBuilder prefix, int i, String pattern, Queue<String> queue) 
+    private void collect(Node<String> x, StringBuilder prefix, int i, String pattern, Queue<String> queue) 
     {
         if (x == null) return;
         char c = pattern.charAt(i);
@@ -237,4 +239,73 @@ public class SearchingTrips<Value>
         }
         if (c == '.' || c > x.c) collect(x.right, prefix, i, pattern, queue);
     }
+    
+    
+    public List<String> StopInformation(String stop)
+	{
+		List<String> stopList = new LinkedList<String>();
+		
+		this.keysWithPrefix(stop).forEach((theStop) -> 
+		{
+			stopList.add(this.get(theStop));
+		});
+		
+		if(stopList.isEmpty())
+		{
+			stopList.add("The bus stop you entered does not exist!" + "\n");
+		}
+		
+		return stopList;
+	}
+    
+    
+    /**
+     * Initializes the string symbol table.
+     */
+    public SearchingTrips(String file) 
+    {	
+    	  String txt = file;
+          try
+          {
+    		File theInput = new File(txt);
+    	    Scanner scanner = new Scanner(theInput);
+    	    String[] data = scanner.nextLine().split(",");;
+    	    
+    	    while(scanner.hasNextLine())
+    	    {
+    	    	data = scanner.nextLine().split(",");;
+    	    	String ID = data[0];
+    	    	String name = data[2];
+    	    	StringBuilder stopName = new StringBuilder();
+    	    	stopName.append(name);
+    	    	if (stopName.substring(0, 2).equals("WB") || stopName.substring(0, 2).equals("EB") || stopName.substring(0, 2).equals("NB") || stopName.substring(0, 2).equals("SB")) 
+    	    	{
+    				String prefix = stopName.substring(0, 2);
+    				stopName.delete(0, 3);
+    				stopName.append(" " + prefix);
+    	    	}
+    	    	
+    	    	if(stopName.substring(0, 8).equals("FLAGSTOP"))
+    	    	{
+    	    		String prefix = stopName.substring(0, 11);
+    	    		stopName.delete(0, 12);
+    	    		stopName.append(" " + prefix);
+    	    	}
+    	    	
+    	    	String theStop = stopName.toString();
+    	    	stopName.append("\n" + "stop_id" + ID);
+    	    	stopName.append("\n" + "stop_code" + data[1]);
+    	    	stopName.append("\n" + "stop_desc" + data[3]);
+    	    	stopName.append("\n" + "stop_lat" + data[4]);
+    	    	stopName.append("\n" + "stop_lon" + data[5]);
+    	    	stopName.append("\n" + "zone_id" + data[6]);
+    	    	stopName.append("\n" + "stop_url" + data[7]);
+    	    	stopName.append("\n" + "location_type" + data[8] + "\n");
+    	    	String ST = stopName.toString();
+    	    	this.put(theStop, ST);
+    	    }
+    	   scanner.close();
+          }catch(Exception e) {return;}
+    }
+   
 }
