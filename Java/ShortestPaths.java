@@ -16,7 +16,7 @@ public class ShortestPaths
 		 {
 	            if (e.getCost() < 0)
 	                throw new IllegalArgumentException("edge " + e + " has negative weight");
-	        }
+	     }
 
 	        distTo = new double[graph.V()];
 	        edgeTo = new DirectedEdge[graph.V()];
