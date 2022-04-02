@@ -125,7 +125,16 @@ public class FrontInterface
 						    List<String> info = new LinkedList<String>();
 						    info = trips.result("stops.txt");
 					    	String theTime = input.nextLine();
+					    	StringBuilder theInput = new StringBuilder();
+					    	theInput.append(theTime);
+					    	String first = theInput.substring(0,1);
+					    	if(!Character.isDigit(first.charAt(0)))
+					    	{
+					    		System.out.print("Please enter a correct time!!\n");
+					    	}
 					    	
+					    	else
+					    	{
 					    	for(int i = 0; i < time.size(); i++)
 					    	{
 					    		if(time.get(i).trim().equals(theTime))
@@ -160,7 +169,8 @@ public class FrontInterface
 					    							 + dataSet[7] + "\n" + "location_type : " + dataSet[8] + "\n\n");
 					    				}
 					    			}
-					    		}
+					    		} 
+					    	}
 					    	}
 					    }
 					}
