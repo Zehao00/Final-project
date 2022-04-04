@@ -165,8 +165,7 @@ public class FrontInterface
 					    		    	     String theStop = name.toString();
 					    					 System.out.print(theStop + "\n" + "stop_id : " + dataSet[0] + "\n" + "stop_code : " + dataSet[1]
 					    							 + "\n" + "stop_desc : " + dataSet[3] + "\n" + "stop_lat : " + dataSet[4] + "\n"
-					    							 + "stop_lon : " + dataSet[5] + "\n" + "zone_id : " + dataSet[6] + "\n" + "stop_url : "
-					    							 + dataSet[7] + "\n" + "location_type : " + dataSet[8] + "\n\n");
+					    							 + "stop_lon : " + dataSet[5] + "\n" + "zone_id : " + dataSet[6] + "\n" + "location_type : " + dataSet[8] + "\n\n");
 					    				}
 					    			}
 					    		} 
