@@ -44,7 +44,7 @@ public class DoublyLinkedListTest
     {
         // test non-empty list
         DoublyLinkedList<Integer> testDLL = new DoublyLinkedList<Integer>();
-        testDLL.insertBefore(0,1);
+        testDLL.insertBefore(0,7);
         testDLL.insertBefore(1,2);
         testDLL.insertBefore(2,3);
 
