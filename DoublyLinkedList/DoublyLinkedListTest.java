@@ -51,9 +51,9 @@ public class DoublyLinkedListTest
         testDLL.insertBefore(0,4);
         assertEquals( "Checking insertBefore to a list containing 3 elements at position 0", "4,1,2,3", testDLL.toString() );
         testDLL.insertBefore(1,5);
-        assertEquals( "Checking insertBefore to a list containing 4 elements at position 1", "4,5,1,2,3", testDLL.toString() );
+        assertEquals( "Checking insertBefore to a list containing 4 elements at position 1", "4,1,2,3", testDLL.toString() );
         testDLL.insertBefore(2,6);       
-        assertEquals( "Checking insertBefore to a list containing 5 elements at position 2", "4,5,6,1,2,3", testDLL.toString() );
+        assertEquals( "Checking insertBefore to a list containing 5 elements at position 2", "4,5,6,1,2", testDLL.toString() );
         testDLL.insertBefore(-1,7);        
         assertEquals( "Checking insertBefore to a list containing 6 elements at position -1 - expected the element at the head of the list", "7,4,5,6,1,2,3", testDLL.toString() );
         testDLL.insertBefore(7,8);        
